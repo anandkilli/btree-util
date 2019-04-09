@@ -9,23 +9,44 @@ import (
 	"strings"
 )
 
-func DrawBtree(rootNode node) {
+var buf strings.Builder
 
-	var buf strings.Builder
+func DrawBtree() {
 
-	styles, err := ioutil.ReadFile("styles.css")
+	var hbuf strings.Builder
+
+	//BtreeToHtml(rootNode)
+
+	out, err := exec.Command("go", "list", "-f", "'{{.Dir}}'", "freestyle-btree/btree").Output()
 	handleError(err)
 
-	buf.WriteString(string(styles))
-	fmt.Fprintf(&buf, "<div class=\"tree\"><ul>%s</ul></div>\n", nodeToHtml(&rootNode))
+	styles, err := ioutil.ReadFile(string(out)[1:len(string(out))-2] + "/styles.css")
+	handleError(err)
+
+	hbuf.WriteString("<html>\n<head>\n")
+	hbuf.WriteString(strings.ReplaceAll(string(styles), "%", "%%"))
+	hbuf.WriteString("</head>\n<body>\n")
+	hbuf.WriteString(buf.String())
+	hbuf.WriteString("</body>\n</html>")
+
+	srv := &http.Server{Addr: ":8500"}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprintf(w, buf.String())
+		fmt.Fprintf(w, hbuf.String())
 	})
 
 	open("http://localhost:8500/")
-	http.ListenAndServe(":8500", nil)
+	srv.ListenAndServe()
+}
+
+func BtreeToHtml(rootNode node) {
+
+	//var buf strings.Builder
+
+	fmt.Fprintf(&buf, "<div class=\"tree\">\n<ul>%s</ul>\n</div>\n", nodeToHtml(&rootNode))
+
+	//return buf.String()
 }
 
 func nodeToHtml(Node *node) string {
@@ -49,6 +70,14 @@ func handleError(e error) {
 	if e != nil {
 		panic(e)
 	}
+}
+
+//Appends string you want to print in Console to HTML output
+func HPrintln(format string, vals ...interface{}) {
+
+	var b strings.Builder
+	fmt.Fprintf(&b, format, vals...)
+	fmt.Println(b.String())
 }
 
 // open opens the specified URL in the default browser of the user.
