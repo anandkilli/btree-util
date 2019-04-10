@@ -15,9 +15,7 @@ func DrawBtree() {
 
 	var hbuf strings.Builder
 
-	//BtreeToHtml(rootNode)
-
-	out, err := exec.Command("go", "list", "-f", "'{{.Dir}}'", "freestyle-btree/btree").Output()
+	out, err := exec.Command("go", "list", "-f", "'{{.Dir}}'", "github.com/anandkilli/btree-util/btree").Output()
 	handleError(err)
 
 	styles, err := ioutil.ReadFile(string(out)[1:len(string(out))-2] + "/styles.css")
@@ -40,30 +38,32 @@ func DrawBtree() {
 	srv.ListenAndServe()
 }
 
-func BtreeToHtml(rootNode node) {
-
-	//var buf strings.Builder
+func BtreeToHtml(rootNode Node) {
 
 	fmt.Fprintf(&buf, "<div class=\"tree\">\n<ul>%s</ul>\n</div>\n", nodeToHtml(&rootNode))
-
-	//return buf.String()
 }
 
-func nodeToHtml(Node *node) string {
+func nodeToHtml(rNode *Node) string {
 
 	var str strings.Builder
 
-	if Node.Leftnode == nil && Node.Rightnode == nil {
+	if rNode == nil {
+
+		return "<li>\n<a href=\"#\">&nbsp;</a>\n</li>\n"
+	}
+
+	if rNode.LeftNode == nil && rNode.RightNode == nil {
 
 		// A node with no child nodes
-		fmt.Fprintf(&str, "<li>\n<a href=\"#\">%s</a>\n</li>\n", Node.Value)
-		return str.String()
-	} else {
-		fmt.Fprintf(&str, "<li>\n<a href=\"#\">%s</a>\n<ul>\n%s\n%s\n</ul>\n</li>",
-			Node.Value, nodeToHtml(Node.Leftnode),
-			nodeToHtml(Node.Rightnode))
+		fmt.Fprintf(&str, "<li>\n<a href=\"#\">%s</a>\n</li>\n", rNode.Value)
 		return str.String()
 	}
+
+	fmt.Fprintf(&str, "<li>\n<a href=\"#\">%s</a>\n<ul>\n%s\n%s\n</ul>\n</li>",
+		rNode.Value, nodeToHtml(rNode.LeftNode),
+		nodeToHtml(rNode.RightNode))
+	return str.String()
+
 }
 
 func handleError(e error) {

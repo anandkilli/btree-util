@@ -2,26 +2,26 @@ package btree
 
 import "strings"
 
-type node struct {
-	Leftnode  *node
+type Node struct {
+	LeftNode  *Node
 	Value     string
-	Rightnode *node
+	RightNode *Node
 }
 
-func Init(treeString string) node {
+func Init(treeString string) Node {
 
 	btree := createBtree(treeString)
-	return btree
+	return *btree
 }
 
-func createBtree(treeString string) node {
+func createBtree(treeString string) *Node {
 
-	//Alway take left node/tree string starting point as 0
-	//Always take Right node/tree ending point as len()-1
+	//Alway take left Node/tree string starting point as 0
+	//Always take Right Node/tree ending point as len()-1
 	//fmt.Println("String received: ", treeString)
 	processingLeftTree := true
 	parenCounter := 0
-	var rootnodeString, leftTreeString, rightTreeString string
+	var rootNodeString, leftTreeString, rightTreeString string
 	var nextParenIndex int
 	for index := 0; index < len(treeString); index++ {
 
@@ -42,7 +42,7 @@ func createBtree(treeString string) node {
 					leftTreeString = treeString[0 : index+1]
 					processingLeftTree = false
 					nextParenIndex = getIndexAfter(treeString, "(", index)
-					rootnodeString = strings.Trim(treeString[index+1:nextParenIndex], " ")
+					rootNodeString = strings.Trim(treeString[index+1:nextParenIndex], " ")
 					index = nextParenIndex - 1
 				case false:
 					rightTreeString = treeString[nextParenIndex:]
@@ -51,36 +51,46 @@ func createBtree(treeString string) node {
 			}
 		}
 	}
-	var lnode, rnode, rootnode node
+	var lNode, rNode, rootNode *Node
 
 	//Check if each left string and right string has only one left '(' and one ')'
 	//This will be recursion stopper
 	if strings.Count(leftTreeString, "(") == 1 && strings.Count(leftTreeString, ")") == 1 {
-		leftnodeValue := strings.Trim(leftTreeString[1:len(leftTreeString)-1], " ")
-		//Create node with this value
-		lnode = node{nil, leftnodeValue, nil}
+		leftNodeValue := strings.Trim(leftTreeString[1:len(leftTreeString)-1], " ")
+		//if leftNodeValue is a blank string, make lNode nil
+		if len(leftNodeValue) == 0 {
+			lNode = nil
+		} else {
+			//Create Node with this value
+			lNode = &Node{nil, leftNodeValue, nil}
+		}
 	} else {
 
-		//If the string represents a branch instead of a node, pass the string to createBtree again
+		//If the string represents a branch instead of a Node, pass the string to createBtree again
 		//When passing make sure you strip left most '(' and right most ')'
-		lnode = createBtree(leftTreeString[1 : len(leftTreeString)-1])
+		lNode = createBtree(leftTreeString[1 : len(leftTreeString)-1])
 	}
 
 	if strings.Count(rightTreeString, "(") == 1 && strings.Count(rightTreeString, ")") == 1 {
-		rightnodeValue := strings.Trim(rightTreeString[1:len(rightTreeString)-1], " ")
-		//Create node with this value
-		rnode = node{nil, rightnodeValue, nil}
+		rightNodeValue := strings.Trim(rightTreeString[1:len(rightTreeString)-1], " ")
+		//if rightNodeValue is a blank string, make lNode nil
+		if len(rightNodeValue) == 0 {
+			rNode = nil
+		} else {
+			//Create Node with this value
+			rNode = &Node{nil, rightNodeValue, nil}
+		}
 	} else {
 
-		//If the string represents a branch instead of a node, pass the string to createBtree again
+		//If the string represents a branch instead of a Node, pass the string to createBtree again
 		//When passing make sure you strip left most '(' and right most ')'
-		rnode = createBtree(rightTreeString[1 : len(rightTreeString)-1])
+		rNode = createBtree(rightTreeString[1 : len(rightTreeString)-1])
 	}
 
-	//Create root node and attach left and right nodes, and return root node address
-	rootnode = node{&lnode, rootnodeString, &rnode}
+	//Create root Node and attach left and right Nodes, and return root Node address
+	rootNode = &Node{lNode, rootNodeString, rNode}
 
-	return rootnode
+	return rootNode
 }
 
 func getIndexAfter(str string, match string, index int) int {
