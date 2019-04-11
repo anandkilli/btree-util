@@ -77,7 +77,7 @@ func HPrintln(format string, vals ...interface{}) {
 
 	var b strings.Builder
 	fmt.Fprintf(&b, format, vals...)
-	fmt.Println(b.String())
+	fmt.Fprintf(&buf, "<p>%s</p>", b.String())
 }
 
 // open opens the specified URL in the default browser of the user.

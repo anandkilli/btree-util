@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/anandkilli/btree-util/btree"
 )
 
@@ -10,11 +8,10 @@ func main() {
 
 	treeString := "(((2)10(12))20(22))25(((28)30(32))36(40))"
 	bt := btree.Init(treeString)
-
-	fmt.Println("Left Node: ", bt.LeftNode.LeftNode.LeftNode.Value)
 	btree.BtreeToHtml(bt)
 	_ = deleteNode(&bt, "25")
 	_ = deleteNode(&bt, "36")
+	btree.HPrintln("Tree after deleting 25 and 36")
 	btree.BtreeToHtml(bt)
 	btree.DrawBtree()
 }
