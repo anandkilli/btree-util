@@ -77,4 +77,11 @@ This function opens your default browser and displays all the markup that is sta
 ```Go
 btree.DrawBtree()
 ```
-> Note that calling this method halts your execution as it start a http server and listens on 8500 port. Please call this method at the end of your programm. Press Ctrl + C to terminate and relaunch 
+> Note that calling this method halts your execution as it start a http server and listens on 8500 port. Please call this method at the end of your programm. Press Ctrl + C to terminate and relaunch
+
+## To-Do
+
+1. Better handling for improperly formatted tree string
+2. Support for additional types to store. Currently it stores everything as Strings
+
+Please open issues using issue tracker. Leave a comment if you have a suggestion for enhancement. This is my first time contributing a package. Hope this helps someone who is learning Go and playing with Binary trees
