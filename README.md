@@ -1,3 +1,5 @@
+<img src="images/btree-util-demo.gif" />
+
 # btree-util
 
 btree-util is a tiny package to initialize a Binary tree with custom data and also graphically display binary tree. btree-util doesn't depend on any other packages, it's completely independent and needs just your Go core. It was tested in OSx and Windows but should work on any GUI based operating system
