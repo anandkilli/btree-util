@@ -6,9 +6,9 @@ btree-util is a tiny package to initialize a Binary tree with custom data and al
 
 ## Background
 
-Ever came accross a scenario where you want to write an alogorithm on Binary Tree but had to write code to create a Tree first? Ever wondered how your binary tree looks after some manipulations? You would have traversed the tree and printed to see it's current state but wouldn't it be cool to see the Tree in a Tree shape! 
+Ever came across a scenario where you want to write an algorithm on Binary Tree but had to write code to create a Tree first? Ever wondered how your binary tree looks after some manipulations? You would have traversed the tree and printed to see it's current state but wouldn't it be cool to see the Tree in a Tree shape! 
 
-Btree-util does the job for you for all you Go programm Binary tree needs. Btree-util is a tiny package that helps you initialize a Binary tree with choice of data so that you can get started with applying your Btree algorithms right away. What's cool is you can graphically see how your tree looks like at a given point in your flow
+Btree-util does the job for you for all you Go program Binary tree needs. Btree-util is a tiny package that helps you initialize a Binary tree with a choice of data so that you can get started with applying your Btree algorithms right away. What's cool is you can graphically see how your tree looks like at a given point in your flow
 
 ## Getting started
 
@@ -29,7 +29,7 @@ The package includes the following 4 functions
 
 ## Init
 
-This method accepts a string representation of a Binary tree and create the tree for you. 
+This method accepts a string representation of a Binary tree and creates the tree for you. 
 ```Go
 treeString := "(((2)10(12))20(22))25(((28)30(32))36(40))"
 bt := btree.Init(treeString)
@@ -42,27 +42,27 @@ Followng is how a simplestic tree with a parent and 2 child nodes look like
 Now let's add 2 more child nodes to node 36
 <img src="images/tree-to-string-sample-1.gif" />
 
-Isn't it easy? With this format you can break string into tree format using any editor that highlights balancing parenthesis. Let's look at converting the whole tree in our example programm into a string representation
+Isn't it easy? With this format, you can break a string into tree format using any editor that highlights balancing parenthesis. Let's look at converting the whole tree in our example program into a string representation
 <img src="images/tree-to-string-sample-2.gif" />
 
 ## BtreeToHtml
 
-This method consumes your tree and converts it to a HTML represenation. Wait a minuite! Why HTML is coming into picture. Don't worry, will walk you through my pain. First, let's look at the syntax
+This method consumes your tree and converts it to a HTML representation. Wait a minute! Why HTML is coming into the picture. Don't worry, will walk you through my pain. First, let's look at the syntax
 
 ```Go
 btree.BtreeToHtml(bt)
 //This doesn't show the tree, just converts and keeps the markup with it 
-//33so that you can call this multiple times to see state of your binary tree at various stages of flow
+//so that you can call this multiple times to see the state of your binary tree at various stages of flow
 ```
-Coming back to why I choose HTML, Go doesn't have a built in support for showing Graphics. There are third party packages available that initalizes graphics for a target operating system using OS level APIs like DirectX and OpenGL. Go doesn't install packages that a third party package depends on. When I started playing around with few popular Graphics packages, I was forced to install many other missing packages and some of them are Operating system dependent.
+Coming back to why I choose HTML, Go doesn't have a built in support for showing Graphics. There are third-party packages available that initializes graphics for a target operating system using OS-level APIs like DirectX and OpenGL. Go doesn't install packages that a third party package depends on. When I started playing around with few popular Graphics packages, I was forced to install many other missing packages and some of them are Operating system dependent.
 
-I had very little success after a lot of time and energy spent on it. Even if I could make it work on one operating system, there is no guranty that it will work elsewhere. On top of that, I need to guide people on how to install all the dependent packages for them to use this package. Not very convienient.
+I had very little success after a lot of time and energy spent on it. Even if I could make it work on one operating system, there is no guaranty that it will work elsewhere. On top of that, I need to guide people on how to install all the dependent packages for them to use this package. Not very convenient.
 
-So I have started looking into options where one can use this package with less to no hassle. Then HTML came to rescue(I am a web developer by profession so I know this guy). Go support web development. Go can run OS commands. Problem solved. I will draw binary tree in HTML, serve it by starting a http server and fire OS command to open default brrowser to show the tree. Neat!
+So I have started looking into options where one can use this package with less to no hassle. Then HTML came to rescue(I am a web developer by profession so I know this guy). Go support web development. Go can run OS commands. Problem solved. I will draw a binary tree in HTML, serve it by starting a http server and fire OS command to open default browser to show the tree. Neat!
 
 ## HPrintln
 
-This function helps push any info messages to HTML markup. This way you don't have to look at console for some messages and browser for visual of binary tree
+This function helps push any info messages to HTML markup. This way you don't have to look at the console for some messages and browser for visual of the binary tree
 
 ```Go
 btree.HPrintln("Tree after deleting 25 and 36")
@@ -77,11 +77,11 @@ This function opens your default browser and displays all the markup that is sta
 ```Go
 btree.DrawBtree()
 ```
-> Note that calling this method halts your execution as it start a http server and listens on 8500 port. Please call this method at the end of your programm. Press Ctrl + C to terminate and relaunch
+> Note that calling this method halts your execution as it starts a http server and listens on 8500 port. Please call this method at the end of your program. Press Ctrl + C to terminate and relaunch
 
 ## To-Do
 
 1. Better handling for improperly formatted tree string
-2. Support for additional types to store. Currently it stores everything as Strings
+2. Support for additional types to store. Currently, it stores everything as Strings
 
-Please open issues using issue tracker. Leave a comment if you have a suggestion for enhancement. This is my first time contributing a package. Hope this helps someone who is learning Go and playing with Binary trees
+Please open issues using the issue tracker. Leave a comment if you have a suggestion for enhancement. This is my first time contributing a package. Hope this helps someone who is learning Go and playing with Binary trees
